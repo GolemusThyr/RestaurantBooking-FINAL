@@ -32,32 +32,22 @@ namespace RestaurantBooking
                 {
                     connection.Open();
                     SqlCommand command2 = new SqlCommand(null, connection);
-                    command2.CommandText = "SELECT TOP 1 Nume, CategoriePret, Specific, Descriere, Scor FROM Restaurante   ORDER BY Nume   ;";
-
+                    command2.CommandText = "SELECT TOP 10 Nume, CategoriePret, Specific, Descriere, Scor FROM Restaurante   ORDER BY Nume  FOR JSON PATH  ;";
                     using (SqlDataReader reader = command2.ExecuteReader())
                     {
-                        List<Models.ChartLoc> _ChartLoc = new List<ChartLoc>();
 
-                        while (reader.Read())
-                        {​​​​​
-                    Models.ChartLoc chart = new Models.ChartLoc();
-                            chart.Data.Add(reader[1].ToString());
-                            chart.Data.Add(reader[2].ToString());
-                            chart.Data.Add(reader[3].ToString());
-                            chart.Data.Add(reader[4].ToString());
+                        StringBuilder serial = new StringBuilder();
+                        while(reader.Read())
+                        {
+                            serial.Append(reader[0]);
 
 
-
-                            //if (reader["store"] != DBNull.Value)
-                            //  chart.Category = reader["col1"].ToString();
-                            _ChartLoc.Add(chart);
-
-
-                        }​​​​​
-                         rez = System.Text.Json.JsonSerializer.Serialize(_ChartLoc);
-
-
+                        }
+                        //rez = System.Text.Json.JsonSerializer.Serialize(_ChartLoc);
+                        rez = Convert.ToString(serial);
+                        System.Diagnostics.Debug.WriteLine("Serial" + serial);
                     }
+                    
                 }
                 catch (SqlException ex)
                 {
@@ -78,7 +68,7 @@ namespace RestaurantBooking
     }
 
 
-}
+
 
 
 

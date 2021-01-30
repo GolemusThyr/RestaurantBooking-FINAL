@@ -32,7 +32,7 @@ namespace RestaurantBooking
                 {
                     connection.Open();
                     SqlCommand command2 = new SqlCommand(null, connection);
-                    command2.CommandText = "SELECT TOP 10 Nume, CategoriePret, Specific, Descriere, Scor FROM Restaurante   ORDER BY Nume  FOR JSON PATH  ;";
+                    command2.CommandText = "SELECT TOP 10 Index, Nume, CategoriePret, Specific, Descriere, Scor FROM Restaurante   ORDER BY Nume  FOR JSON PATH  ;";
                     using (SqlDataReader reader = command2.ExecuteReader())
                     {
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +8,8 @@ using RestaurantBooking.Models;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Text;
+using Newtonsoft;
+
 
 namespace RestaurantBooking
 {
@@ -43,12 +45,13 @@ namespace RestaurantBooking
 
 
 
-        public int saveClient(Clienti clientToSave)
+        public string saveClient(Clienti clientToSave)
         {
 
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["localDB"].ConnectionString))
             {
                 int indexC = 0;
+                string json;
                 try
                 {
                     connection.Open();
@@ -75,6 +78,13 @@ namespace RestaurantBooking
 
                     command.ExecuteNonQuery();
                    clientToSave.Token = Token;
+                   
+                   ClientInfo infoToReturn = new ClientInfo();
+                   infoToReturn.token = Token;
+                   infoToReturn.mesaj = "Success!";
+                     json = Newtonsoft.Json.JsonConvert.SerializeObject(infoToReturn);
+
+                   
                 }
                 catch (SqlException ex)
                 {
@@ -85,7 +95,8 @@ namespace RestaurantBooking
                     connection.Close();
                 }
 
-                return indexC;
+                return json;
+               
             }
         }
 
@@ -103,6 +114,13 @@ namespace RestaurantBooking
             }
 
             return Sb.ToString();
+        }
+
+        //Class for returning client info
+        public class ClientInfo
+        {
+            public string token { get; set;}
+            public string mesaj { get; set;}
         }
     }
 }

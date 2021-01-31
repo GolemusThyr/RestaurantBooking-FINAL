@@ -26,12 +26,28 @@ public class RestaurantController : ApiController
 
 
 
-
+        // GET api/Restaurant/Restaurante10
         [Route("Restaurante10")]
-        public string Get([FromBody] Restaurante value)
+        public string GetRestaurante10([FromBody] Restaurante value)
         {
             RestaurantPersistence rp = new RestaurantPersistence();
             string rezultat = rp.Restaurante10(value);
+            return rezultat;
+
+
+
+
+
+
+            return " ";
+        }
+
+        // GET api/Restaurant/RestaurantIndividual
+        [Route("RestaurantIndividual")]
+        public string GetRestaurantIndividual([FromBody] Restaurante value)
+        {
+            RestaurantPersistence rp = new RestaurantPersistence();
+            string rezultat = rp.IndividualRestaurant(value);
             return rezultat;
 
 

@@ -5,10 +5,10 @@ using System.Web;
 
 namespace RestaurantBooking.Models
 {
-    public class Restaurante
+    public class Booking
     {
 
-        public int Index { get; set; }
+        public int IndexRestaurant { get; set; }
         public string Nume { get; set; }
 
         public string Specific { get; set; }
@@ -19,9 +19,6 @@ namespace RestaurantBooking.Models
         public int Telefon { get; set; }
 
         public string Descriere { get; set; }
-
-
-
 
 
     }

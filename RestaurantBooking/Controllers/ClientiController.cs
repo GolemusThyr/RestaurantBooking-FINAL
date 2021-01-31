@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -38,16 +38,19 @@ namespace RestaurantBooking.Controllers
 
         // POST: api/Clienti/Register
         [Route("Register")]
-        public int Post([FromBody]Clienti value)
+        public string Post([FromBody]Clienti value)
         {
             ClientiPersistence cp = new ClientiPersistence();
-            int id;
-            id = cp.saveClient(value);
-            value.ID = id;
+            //int id;
+            //id = cp.saveClient(value);
+            //value.ID = id;
+            string clientReg = cp.saveClient(value);
+
+            
             //HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
             //response.Headers.Location = new Uri(Request.RequestUri, string.Format("client"));
             System.Diagnostics.Debug.WriteLine("Token: " + value.Token);
-            return id;
+            return clientReg;
         }
 
        

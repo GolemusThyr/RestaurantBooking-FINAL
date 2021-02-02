@@ -34,12 +34,12 @@ namespace RestaurantBooking
 
 
 
-        
 
 
 
 
 
+       
 
         
 
@@ -51,13 +51,58 @@ namespace RestaurantBooking
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["localDB"].ConnectionString))
             {
                 int indexC = 0;
-                string json;
+                string json = "";
+                bool accountExists = false;
+
+
+                try{
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(null, connection);
+
+                    //Create SQL statement
+
+                    command.CommandText = "SELECT COUNT(*) FROM [dbo].[Clienti] WHERE Email = @email";
+                    command.Parameters.AddWithValue("@email", clientToSave.Email);
+
+                    int emailNum = 0;
+                    using(SqlDataReader reader = command.ExecuteReader())
+                    {
+                        StringBuilder respons = new StringBuilder();
+                        while(reader.Read())
+                        {
+                            respons.Append(reader[0]);
+                        }
+                        emailNum = int.Parse(respons.ToString());
+                        System.Diagnostics.Debug.WriteLine("Emai value: "+emailNum);
+
+                        if(emailNum > 0) 
+                        {
+                            accountExists = true;
+                            ClientInfo infoToReturn = new ClientInfo();
+                            infoToReturn.mesaj = "Account exists!";
+                            json = Newtonsoft.Json.JsonConvert.SerializeObject(infoToReturn);
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                   // throw ex;
+                    ClientInfo infoToReturn = new ClientInfo();
+                    infoToReturn.mesaj = "Error!";
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                if(accountExists == false)
+                {
                 try
                 {
                     connection.Open();
                     SqlCommand command = new SqlCommand(null, connection);
 
-                    // Create SQL statement.
+                    // Create SQL statement
                     command.CommandText = "INSERT INTO Clienti (NumePrenume, IndexOras, Email, Parola) output INSERTED.[Index] VALUES (@nume, @oras, @email, @parola);";
 
                     command.Parameters.AddWithValue("@nume", clientToSave.NumePrenume);
@@ -88,13 +133,16 @@ namespace RestaurantBooking
                 }
                 catch (SqlException ex)
                 {
-                    throw ex;
+                    //throw ex;
+                    ClientInfo infoToReturn = new ClientInfo();
+                   infoToReturn.mesaj = "Error!";
+                    json = Newtonsoft.Json.JsonConvert.SerializeObject(infoToReturn);
                 }
                 finally
                 {
                     connection.Close();
                 }
-
+                }
                 return json;
                
             }

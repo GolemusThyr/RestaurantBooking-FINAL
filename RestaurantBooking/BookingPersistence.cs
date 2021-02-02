@@ -31,7 +31,7 @@ namespace RestaurantBooking
 
 
                     SqlCommand command = new SqlCommand(null, connection);
-                    command.CommandText = "SELECT [Index] FROM ClientiSesiuni WHERE [Token] = @tok  FOR JSON PATH;";
+                    command.CommandText = "SELECT [Index] FROM ClientiSesiuni WHERE [Token] = @tok ;";
                     command.Parameters.AddWithValue("@tok", BookingToSave.Token);
                     string indc = BookingToSave.Token;
                     //command.Parameters.AddWithValue(indc, BookingToSave.IndexClient);
@@ -41,16 +41,7 @@ namespace RestaurantBooking
                         StringBuilder serial = new StringBuilder();
                         while (reader.Read())
                         {
-                             SqlCommand command2 = new SqlCommand(null, connection);
-                            command2.CommandText = "INSERT INTO [Rezervari] ([IndexClient], [IndexRestaurant], [Nume],  [DataInceput], [DataFinal], [IndexMasa1], [IndexMasa2]) VALUES (@IndexClient, @IndexRestaurant, @Nume,  @DataInceput, @DataFinal, @IndexMasa1, @IndexMasa2);";
-
-                            command2.Parameters.AddWithValue("@IndexClient", indc);
-                            command2.Parameters.AddWithValue("@IndexRestaurant", BookingToSave.IndexRestaurant);
-                            command2.Parameters.AddWithValue("@Nume", BookingToSave.Nume);
-                            command2.Parameters.AddWithValue("@DataInceput", BookingToSave.DataInceput);
-                            command2.Parameters.AddWithValue("@DataFinal", BookingToSave.DataFinal);
-                            command2.Parameters.AddWithValue("@IndexMasal", BookingToSave.IndexMasa1);
-                            command2.Parameters.AddWithValue("@IndexMasa2", BookingToSave.IndexMasa2);
+                            
 
 
                             serial.Append(reader[0]);
@@ -58,7 +49,16 @@ namespace RestaurantBooking
 
                         }
 
+                        SqlCommand command2 = new SqlCommand(null, connection);
+                        command2.CommandText = "INSERT INTO [Rezervari] ([IndexClient], [IndexRestaurant], [Nume],  [DataInceput], [DataFinal], [IndexMasa1], [IndexMasa2]) VALUES (@IndexClient, @IndexRestaurant, @Nume,  @DataInceput, @DataFinal, @IndexMasa1, @IndexMasa2);";
 
+                        command2.Parameters.AddWithValue("@IndexClient", indc);
+                        command2.Parameters.AddWithValue("@IndexRestaurant", BookingToSave.IndexRestaurant);
+                        command2.Parameters.AddWithValue("@Nume", BookingToSave.Nume);
+                        command2.Parameters.AddWithValue("@DataInceput", BookingToSave.DataInceput);
+                        command2.Parameters.AddWithValue("@DataFinal", BookingToSave.DataFinal);
+                        command2.Parameters.AddWithValue("@IndexMasal", BookingToSave.IndexMasa1);
+                        command2.Parameters.AddWithValue("@IndexMasa2", BookingToSave.IndexMasa2);
                     }
 
 

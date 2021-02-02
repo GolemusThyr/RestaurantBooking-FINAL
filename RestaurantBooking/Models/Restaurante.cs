@@ -7,7 +7,7 @@ namespace RestaurantBooking.Models
 {
     public class Restaurante
     {
-
+        public int IndexOras { get; set; }
         public int Index { get; set; }
         public string Nume { get; set; }
 

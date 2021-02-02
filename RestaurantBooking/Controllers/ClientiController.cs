@@ -50,7 +50,9 @@ namespace RestaurantBooking.Controllers
             //HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
             //response.Headers.Location = new Uri(Request.RequestUri, string.Format("client"));
             System.Diagnostics.Debug.WriteLine("Token: " + value.Token);
+            System.Diagnostics.Debug.WriteLine("ClientReg:" + clientReg);
             return clientReg;
+
         }
 
        

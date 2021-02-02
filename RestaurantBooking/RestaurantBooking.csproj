@@ -153,6 +153,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="BookingPersistence.cs" />
+    <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="RestaurantPersistence.cs" />
     <Compile Include="ClientiPersitence.cs" />
